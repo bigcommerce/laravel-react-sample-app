@@ -18,7 +18,7 @@ class MainController extends BaseController
     }
 
     public function getAppClientId() {
-        if (env('APP_ENV') === 'local') {
+        if (app()->environment('local')) {
             return config('bigcommerce.bc_local_client_id');
         } else {
             return config('bigcommerce.bc_app_client_id');
@@ -26,7 +26,7 @@ class MainController extends BaseController
     }
 
     public function getAppSecret(Request $request) {
-        if (env('APP_ENV') === 'local') {
+        if (app()->environment('local')) {
             return config('bigcommerce.bc_local_secret');
         } else {
             return config('bigcommerce.bc_app_secret');
@@ -34,7 +34,7 @@ class MainController extends BaseController
     }
 
     public function getAccessToken(Request $request) {
-        if (env('APP_ENV') === 'local') {
+        if (app()->environment('local')) {
             return config('bigcommerce.bc_local_access_token');
         } else {
             return $request->session()->get('access_token');
@@ -42,7 +42,7 @@ class MainController extends BaseController
     }
 
     public function getStoreHash(Request $request) {
-        if (env('APP_ENV') === 'local') {
+        if (app()->environment('local')) {
             return config('bigcommerce.bc_local_store_hash');
         } else {
             return $request->session()->get('store_hash');
