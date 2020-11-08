@@ -42,7 +42,7 @@ export default class Home extends React.Component {
       },
       {
         label: "Inventory Count",
-        index: "variant_count",
+        index: "inventory_count",
         format: "number",
       },
       {
