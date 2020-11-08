@@ -17,7 +17,7 @@
         "jquery": "^3.4.0",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
-        "popper.js": "^1.12",
+        "popper.js": "^1.15",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
         "resolve-url-loader": "^3.1.0",
