@@ -53,7 +53,7 @@ class MainController extends BaseController
     {
         // Make sure all required query params have been passed
         if (!$request->has('code') || !$request->has('scope') || !$request->has('context')) {
-            return redirect()->action('MainController@error')->with('error_message', 'Not enough information was passed to install this app.');
+            return redirect('error')->with('error_message', 'Not enough information was passed to install this app.');
         }
 
         try {
@@ -102,7 +102,7 @@ class MainController extends BaseController
             if ($request->has('external_install')) {
                 return redirect('https://login.bigcommerce.com/app/' . $this->getAppClientId() . '/install/failed');
             } else {
-                return redirect()->action('MainController@error')->with('error_message', $errorMessage);
+                return redirect('error')->with('error_message', $errorMessage);
             }
         }
     }
@@ -119,16 +119,16 @@ class MainController extends BaseController
                 $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
                 $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
             } else {
-                return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
+                return redirect('error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
             }
         } else {
-            return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce was empty.');
+            return redirect('error')->with('error_message', 'The signed request from BigCommerce was empty.');
         }
 
         return redirect('/');
     }
 
-    public function error(Request $request)
+    public function errorMessage(Request $request)
     {
         $errorMessage = "Internal Application Error";
 
@@ -136,7 +136,9 @@ class MainController extends BaseController
             $errorMessage = $request->session()->get('error_message');
         }
 
-        echo '<h4>An issue has occurred:</h4> <p>' . $errorMessage . '</p> <a href="'.$this->baseURL.'">Go back to home</a>';
+        exit($errorMessage);
+
+        $errorMessage = '<h4>An issue has occurred:</h4> <p>' . $errorMessage . '</p> <a href="'.$this->baseURL.'">Go back to home</a>';
     }
 
     private function verifySignedRequest($signedRequest, $appRequest)
