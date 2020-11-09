@@ -128,19 +128,6 @@ class MainController extends BaseController
         return redirect('/');
     }
 
-    public function errorMessage(Request $request)
-    {
-        $errorMessage = "Internal Application Error";
-
-        if ($request->session()->has('error_message')) {
-            $errorMessage = $request->session()->get('error_message');
-        }
-
-        exit($errorMessage);
-
-        $errorMessage = '<h4>An issue has occurred:</h4> <p>' . $errorMessage . '</p> <a href="'.$this->baseURL.'">Go back to home</a>';
-    }
-
     private function verifySignedRequest($signedRequest, $appRequest)
     {
         list($encodedData, $encodedSignature) = explode('.', $signedRequest, 2);
