@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/error', function () {
+  return view('error');
+});
+
 Route::get('/{url?}', function () {
     return view('app');
 })->where('', 'list');
