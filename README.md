@@ -11,10 +11,10 @@ A walkthrough going over the steps taken to produce this app, along with the ste
 Before jumping in, you'll want to make sure you have the system requirements met:
 - PHP ([Installation Guide](https://www.php.net/manual/en/install.php))
 - Composer ([Installation Guide](https://getcomposer.org/doc/00-intro.md))
-- Laravel ([Installation Guide](https://laravel.com/docs/5.8))
+- Laravel ([Installation Guide](https://laravel.com/docs/10.x))
 - Local SSL Cert (Recommend Valet or Homestead to ease set up)
-  - Mac OS: Valet ([Installation Guide](https://laravel.com/docs/5.8/valet))
-  - Windows / Linux: Homestead ([Installation Guide](https://laravel.com/docs/5.8/homestead))
+  - Mac OS: Valet ([Installation Guide](https://laravel.com/docs/10.x/valet))
+  - Windows / Linux: Homestead ([Installation Guide](https://laravel.com/docs/10.x/homestead))
 
 To install PHP dependancies:
 
