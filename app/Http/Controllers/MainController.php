@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
-use GuzzleHttp\Psr7;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+
 use GuzzleHttp\Exception\RequestException;
+
 use GuzzleHttp\Client;
 
 class MainController extends BaseController
@@ -53,11 +56,11 @@ class MainController extends BaseController
         }
     }
 
-    public function install(Request $request)
+    public function install(Request $request): RedirectResponse
     {
         // Make sure all required query params have been passed
         if (!$request->has('code') || !$request->has('scope') || !$request->has('context')) {
-            return redirect()->action('MainController@error')->with('error_message', 'Not enough information was passed to install this app.');
+            return redirect()->action([MainController::class, 'error'], ['error_message' => 'Not enough information was passed to install this app.']);
         }
 
         try {
@@ -86,32 +89,32 @@ class MainController extends BaseController
                 // If the merchant installed the app via an external link, redirect back to the 
                 // BC installation success page for this app
                 if ($request->has('external_install')) {
-                    return redirect('https://login.bigcommerce.com/app/' . $this->getAppClientId() . '/install/succeeded');
+                    return Redirect::to('https://login.bigcommerce.com/app/' . $this->getAppClientId() . '/install/succeeded');
                 }
             }
 
-            return redirect('/');
+            return Redirect::to('/');
         } catch (RequestException $e) {
             $statusCode = $e->getResponse()->getStatusCode();
             $errorMessage = "An error occurred.";
 
             if ($e->hasResponse()) {
                 if ($statusCode != 500) {
-                    $errorMessage = Psr7\str($e->getResponse());
+                    $errorMessage = $e->getResponse();
                 }
             }
 
             // If the merchant installed the app via an external link, redirect back to the 
             // BC installation failure page for this app
             if ($request->has('external_install')) {
-                return redirect('https://login.bigcommerce.com/app/' . $this->getAppClientId() . '/install/failed');
+                return Redirect::to('https://login.bigcommerce.com/app/' . $this->getAppClientId() . '/install/failed');
             } else {
-                return redirect()->action('MainController@error')->with('error_message', $errorMessage);
+                return redirect()->action([MainController::class, 'error'], ['error_message' => $errorMessage]);
             }
         }
     }
 
-    public function load(Request $request)
+    public function load(Request $request): RedirectResponse
     {
         $signedPayload = $request->input('signed_payload');
         if (!empty($signedPayload)) {
@@ -122,14 +125,17 @@ class MainController extends BaseController
                 $request->session()->put('owner_id', $verifiedSignedRequestData['owner']['id']);
                 $request->session()->put('owner_email', $verifiedSignedRequestData['owner']['email']);
                 $request->session()->put('store_hash', $verifiedSignedRequestData['context']);
+                
             } else {
-                return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce could not be validated.');
+                return redirect()->action([MainController::class, 'error'], ['error_message' => 'The signed request from BigCommerce could not be validated.']);
             }
         } else {
-            return redirect()->action('MainController@error')->with('error_message', 'The signed request from BigCommerce was empty.');
+            return redirect()->action([MainController::class, 'error'], ['error_message' => 'The signed request from BigCommerce was empty.']);
         }
 
-        return redirect('/');
+        $request->session()->regenerate();
+
+        return Redirect::to('/');
     }
 
     public function error(Request $request)
@@ -177,6 +183,7 @@ class MainController extends BaseController
 
         $client = new Client();
         $result = $client->request($request->method(), 'https://api.bigcommerce.com/' . $this->getStoreHash($request) .'/'. $endpoint, $requestConfig);
+        
         return $result;
     }
 

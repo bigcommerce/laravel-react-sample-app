@@ -62,7 +62,7 @@ export default class Home extends React.Component {
                     <div className="grid grid-cols-4 gap-4">
                         <div className="content col-span-3 grid-col-3 rounded bg-gray-100 shadow-lg p-4">
                             <h2 className="text-xl font-bold mb-6">This is the Home Page.</h2>
-                            <div class="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-3 gap-4">
                                 {fieldsInSummary.map(function (summaryItem, index) {
                                     return <div className="max-w-sm rounded overflow-hidden shadow-lg px-6 py-4 bg-white" key={index}>
                                         <h3 className="font-bold text-xl mb-2">

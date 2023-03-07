@@ -26,7 +26,7 @@ export default class Table extends React.Component {
 
     render() {
         return (
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-200">
                     <tr>{this.props.tableHeaders.map(function (header, index) {
                         return <th className="py-3.5 px-4 text-left" key={index}>{header.label}</th>;
