@@ -44,6 +44,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/inventory', function () {
         return Inertia::render('Inventory');
     })->name('inventory');
+
+    Route::get('/reports', function () {
+        return Inertia::render('Reports');
+    })->name('reports');
 });
 
 Route::any('/bc-api/{endpoint}', [MainController::class, 'proxyBigCommerceAPIRequest'])
