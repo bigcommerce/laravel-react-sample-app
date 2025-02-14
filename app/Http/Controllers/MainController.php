@@ -182,7 +182,8 @@ class MainController extends BaseController
         }
 
         $client = new Client();
-        $result = $client->request($request->method(), 'https://api.bigcommerce.com/' . $this->getStoreHash($request) .'/'. $endpoint, $requestConfig);
+        $queryString = $request->getQueryString() ? "?{$request->getQueryString()}" : '';
+        $result = $client->request($request->method(), 'https://api.bigcommerce.com/' . $this->getStoreHash($request) .'/'. $endpoint . $queryString, $requestConfig);
         
         return $result;
     }
@@ -195,7 +196,16 @@ class MainController extends BaseController
         }
 
         $result = $this->makeBigCommerceAPIRequest($request, $endpoint);
+        
+        $rateLimitHeaders = [
+            'X-Rate-Limit-Time-Reset-Ms' => $result->getHeader('X-Rate-Limit-Time-Reset-Ms')[0] ?? null,
+            'X-Rate-Limit-Time-Window-Ms' => $result->getHeader('X-Rate-Limit-Time-Window-Ms')[0] ?? null,
+            'X-Rate-Limit-Requests-Left' => $result->getHeader('X-Rate-Limit-Requests-Left')[0] ?? null,
+            'X-Rate-Limit-Requests-Quota' => $result->getHeader('X-Rate-Limit-Requests-Quota')[0] ?? null,
+        ];
 
-        return response($result->getBody(), $result->getStatusCode())->header('Content-Type', 'application/json');
+        return response($result->getBody(), $result->getStatusCode())
+            ->header('Content-Type', 'application/json')
+            ->withHeaders($rateLimitHeaders);
     }
 }

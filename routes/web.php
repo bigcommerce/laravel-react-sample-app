@@ -40,9 +40,17 @@ Route::group(['prefix' => 'auth'], function () {
         echo 'remove-user';
         return app()->version();
     });
+
+    Route::get('/inventory', function () {
+        return Inertia::render('Inventory');
+    })->name('inventory');
+
+    Route::get('/reports', function () {
+        return Inertia::render('Reports');
+    })->name('reports');
 });
 
 Route::any('/bc-api/{endpoint}', [MainController::class, 'proxyBigCommerceAPIRequest'])
-    ->where('endpoint', 'v2\/.*|v3\/.*');
+    ->where('endpoint', 'v2/.*|v3/.*');
 
 require __DIR__.'/auth.php';
