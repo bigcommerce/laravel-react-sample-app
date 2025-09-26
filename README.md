@@ -8,54 +8,38 @@ A walkthrough going over the steps taken to produce this app, along with the ste
 
 ## Prerequisites & Installation
 
-Before jumping in, you'll want to make sure you have the system requirements met:
-- PHP ([Installation Guide](https://www.php.net/manual/en/install.php))
-- Composer ([Installation Guide](https://getcomposer.org/doc/00-intro.md)) 
-- Laravel ([Installation Guide](https://laravel.com/docs/10.x))
+To ease PHP development and enable the app you develop to be easily shared, you’ll want to use Laravel Herd. Herd will handle installing PHP, Composer and other tools helpful for Laravel development. 
+ - [Laravel Herd Installation Guide for Windows](https://herd.laravel.com/docs/windows/1/getting-started/installation)
+ - [Laravel Herd Installation Guide for macOS](https://herd.laravel.com/docs/1/getting-started/installation)
 
-To ease PHP development and enable the app you develop to be easily shared, you’ll want to use either Valet or Homestead, depending on your OS:
-
-- Local SSL Cert (Recommend Valet or Homestead to ease set up)
-  - Mac OS: Valet ([Installation Guide](https://laravel.com/docs/10.x/valet))
-  - Windows / Linux: Homestead ([Installation Guide](https://laravel.com/docs/10.x/homestead))
-
-We’ll be using Valet for some of the steps below, but the functionality to host and share sites is similar across both Valet and Homestead. What’s more important in this tutorial is how to configure Laravel to use React and connect with BigCommerce.
-
-To install PHP dependancies:
-
-```bash
-composer install
-```
-And JS dependancies:
-```bash
-npm install
-```
 To test on a BigCommerce store, you can create a free trial on bigcommerce.com or request a free sandbox store by [signing up to be a tech partner](https://www.bigcommerce.com/partners/).
 
 ## Getting Laravel and React Running Together
 
 This is where we will create a baseline for future development: a simple application that loads at a specific URL in your browser and loads a React component instead of the default Laravel screen.
 
-Create a new Laravel codebase
-You can either use the Laravel command that creates the initial boilerplate for an app in the ~/Sites directory or use Composer:
+Download and install Laravel Herd from one of the links above in the prerequisite section.
 
+Create a new Laravel codebase:
+
+On MacOS
 ```bash
-composer global require laravel/installer
+cd ~/Herd
 laravel new laravel-react-bigcommerce-app
-```
-or
-```bash
-composer create-project laravel/laravel laravel-react-bigcommerce-app
-```
-
-Visit the app address to make sure it’s live locally:
-
-After the command above completes, we wiil need to set up the directory so Valet can serve the app securely.
-```bash
 cd laravel-react-bigcommerce-app
-valet link
-valet secure
+herd open
 ```
+
+or Windows
+```bash
+cd %USERPROFILE%\Herd
+laravel new laravel-react-bigcommerce-app
+cd laravel-react-bigcommerce-app
+herd open
+```
+
+At this point in the Herd UI, you should see your new site in the Sites dialog. Instruct herd to serve the site over https with this step on [macOS](https://herd.laravel.com/docs/1/advanced-usage/securing-sites#via-the-gui) or [Windows](https://herd.laravel.com/docs/windows/1/advanced-usage/securing-sites#via-the-gui).
+
 You should now be able to visit the following URL in your browser and see the default Laravel welcome screen:
 
 https://laravel-react-bigcommerce-app.test
@@ -79,7 +63,7 @@ npm run dev
 ```
 a `Local` url should now be available in your console to visit your react application
 
-http://127.0.0.1:5173/
+https://laravel-react-bigcommerce-app.test
 
 ## References
 
